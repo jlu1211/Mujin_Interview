@@ -48,3 +48,44 @@ Planned features include:
 
 ### 🔜 2. **Full 3D DP Prototype**
 - State representation like:
+
+
+## 📝 TODO
+
+- [ ] Implement 2D grid-based pallet discretization  
+  - Convert pallet surface into coarse (x, y) grid  
+  - Map each box footprint onto grid cells  
+  - Prevent box overlap and out-of-bound placement  
+
+- [ ] Add more accurate geometric feasibility checks  
+  - Consider real L × W packing, not just total area  
+  - Respect exact box placement instead of area-only DP  
+
+- [ ] Prototype full 3D DP solver  
+  - Represent pallet volume in discrete (x, y, z) space  
+  - Allow vertical stacking and layer transitions  
+  - Track box occupancy and stability in all 3 dimensions  
+
+- [ ] Support optional box rotation  
+  - Allow L/W swap  
+  - Later: allow full 6-orientation support in 3D  
+
+- [ ] Add stability metrics  
+  - Center of mass calculations  
+  - Bottom support ratio for each box  
+  - Prevent unstable overhangs  
+
+- [ ] Visualization  
+  - Generate simple ASCII or grid-based visual output  
+  - (Future) Consider matplotlib or a lightweight viewer  
+
+- [ ] Add CLI interface  
+  - Specify pallet size and SKUs from command line  
+  - Output feasibility summary  
+
+- [ ] Add tests  
+  - Unit tests for DP  
+  - Tests for corner selection  
+  - Edge cases (no matching heights, pallet too small, etc.)
+
+
