@@ -1,0 +1,93 @@
+[
+    {
+      "id": 1,
+      "name": "Original Interview Case",
+      "description": "Standard test case provided in the interview.",
+      "pallet": [1200, 800],
+      "skus": {
+        "A": [206, 198, 278, 6],
+        "B": [360, 300, 165, 2],
+        "C": [388, 280, 192, 1],
+        "D": [370, 298, 220, 1]
+      },
+      "expected": true
+    },
+    {
+      "id": 2,
+      "name": "Simple Perfect Fit",
+      "description": "4 corners and 1 large filler that fills the rest exactly.",
+      "pallet": [500, 500],
+      "skus": {
+        "Corner": [100, 100, 10, 4],
+        "Center": [300, 300, 20, 1]
+      },
+      "expected": true
+    },
+    {
+      "id": 3,
+      "name": "No Corners Available",
+      "description": "Only 3 items of the same height. Should fail immediately.",
+      "pallet": [1000, 1000],
+      "skus": {
+        "Box": [100, 100, 50, 3]
+      },
+      "expected": false
+    },
+    {
+      "id": 4,
+      "name": "Impossible Geometry (Too Long)",
+      "description": "Area fits, but one box is longer than the pallet.",
+      "pallet": [1000, 1000],
+      "skus": {
+        "Corner": [100, 100, 10, 4],
+        "LongBoy": [1200, 100, 10, 1]
+      },
+      "expected": false
+    },
+    {
+      "id": 5,
+      "name": "Impossible Area (Overflow)",
+      "description": "Total box area exceeds pallet area.",
+      "pallet": [200, 200],
+      "skus": {
+        "Corner": [50, 50, 10, 4],
+        "BigFiller": [150, 150, 10, 2]
+      },
+      "expected": false
+    },
+    {
+      "id": 6,
+      "name": "Fragmentation Test",
+      "description": "Many small items. Greedy often fails here; Backtracking should succeed.",
+      "pallet": [400, 200],
+      "skus": {
+        "Corner": [50, 50, 10, 4],
+        "Small1": [50, 50, 20, 10],
+        "Small2": [25, 25, 30, 8]
+      },
+      "expected": true
+    },
+    {
+      "id": 7,
+      "name": "Exact Row Fill",
+      "description": "Boxes perfectly fill rows. Easy for humans, tricky for greedy if unsorted.",
+      "pallet": [400, 400],
+      "skus": {
+        "Corner": [100, 100, 10, 4],
+        "RowFiller": [100, 100, 20, 12]
+      },
+      "expected": true
+    },
+    {
+      "id": 8,
+      "name": "Mixed Heights",
+      "description": "Valid corners exist, but many random heights distract the algo.",
+      "pallet": [600, 600],
+      "skus": {
+        "Corner": [100, 100, 50, 4],
+        "Tall": [50, 50, 90, 2],
+        "Short": [50, 50, 20, 2]
+      },
+      "expected": true
+    }
+  ]

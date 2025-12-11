@@ -1,0 +1,14 @@
+Loading tests from test_cases.json...
+
+ID   | Name                      | Exp   | Greedy   (ms)     | Backtrack (ms)     | Status
+----------------------------------------------------------------------------------------------------
+1    | Original Interview Case   | True  | PASS     2568.18  | PASS      1.72     | ✅ OK
+2    | Simple Perfect Fit        | True  | PASS     0.28     | PASS      0.38     | ✅ OK
+3    | No Corners Available      | False | FAIL     0.00     | FAIL      0.00     | ✅ OK
+4    | Impossible Geometry (Too  | False | FAIL     0.03     | FAIL      0.02     | ✅ OK
+5    | Impossible Area (Overflow | False | FAIL     2.11     | FAIL      0.03     | ✅ OK
+6    | Fragmentation Test        | True  | PASS     200.58   | PASS      0.67     | ✅ OK
+7    | Exact Row Fill            | True  | PASS     361.09   | PASS      0.52     | ✅ OK
+8    | Mixed Heights             | True  | PASS     0.83     | PASS      0.22     | ✅ OK
+----------------------------------------------------------------------------------------------------
+Note: 'Greedy' is allowed to fail on complex packing. 'Backtrack' should match 'Exp'.

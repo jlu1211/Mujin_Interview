@@ -1,0 +1,29 @@
+GREEDY Visualization (Scale: 1 char = 20mm)
+Grid Size: 500x500
+---------------------------
+|CCCCCCCCCCCCCCCCCCCCCCCCC|
+|CCCCCCCCCCCCCCCCCCCCCCCCC|
+|CCCCCCCCCCCCCCCCCCCCCCCCC|
+|CCCCCCCCCCCCCCCCCCCCCCCCC|
+|CCCCCCCCCCCCCCCCCCCCCCCCC|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.....CCCCCCCCCCCCCCC.....|
+|.........................|
+|.........................|
+|.........................|
+|.........................|
+|.........................|
+|CCCCC...............CCCCC|
+|CCCCC...............CCCCC|
+|CCCCC...............CCCCC|
+|CCCCC...............CCCCC|
+|CCCCC...............CCCCC|
+---------------------------

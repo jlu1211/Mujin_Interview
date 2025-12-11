@@ -1,0 +1,24 @@
+BACKTRACKING Visualization (Scale: 1 char = 20mm)
+Grid Size: 400x200
+------------
+|CCSSSSSCCC|
+|CCSSSSSCCC|
+|SSSSSSSSSS|
+|SSSSSSSSSS|
+|SSSSSSSSSS|
+|SSSSSSSSSS|
+|SSSSSSSSSS|
+|S.S..S.S..|
+|..........|
+|..........|
+|S.S..S.S..|
+|..........|
+|..........|
+|..........|
+|..........|
+|..........|
+|..........|
+|CC.....CCC|
+|CC.....CCC|
+|CC.....CCC|
+------------

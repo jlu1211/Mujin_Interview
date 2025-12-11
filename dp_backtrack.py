@@ -99,7 +99,7 @@ def find_four_same_height(boxes):
             return group[:4]
     return None
 
-def compute_possibility(skus, boxes):
+def compute_possibility(skus, boxes, pallet_l, pallet_w, layout_filename=None):
     # 1. Identify Corners
     corner_boxes = find_four_same_height(boxes)
     if corner_boxes is None:
@@ -110,14 +110,14 @@ def compute_possibility(skus, boxes):
         boxes.remove(b)
 
     # 2. Setup Grid
-    pallet = PalletGrid(PALLET_LENGTH, PALLET_WIDTH)
+    pallet = PalletGrid(pallet_l, pallet_w)
 
     # 3. Place Corners
     c1, c2, c3, c4 = corner_boxes
     pallet.place_item(0, 0, c1[1], c1[2], c1[0])
-    pallet.place_item(0, PALLET_WIDTH - c2[2], c2[1], c2[2], c2[0])
-    pallet.place_item(PALLET_LENGTH - c3[1], 0, c3[1], c3[2], c3[0])
-    pallet.place_item(PALLET_LENGTH - c4[1], PALLET_WIDTH - c4[2], c4[1], c4[2], c4[0])
+    pallet.place_item(0, pallet_w - c2[2], c2[1], c2[2], c2[0])
+    pallet.place_item(pallet_l - c3[1], 0, c3[1], c3[2], c3[0])
+    pallet.place_item(pallet_l - c4[1], pallet_w - c4[2], c4[1], c4[2], c4[0])
     
     print("Corners placed. Starting Recursive Solver...\n")
 
@@ -134,14 +134,15 @@ def compute_possibility(skus, boxes):
 
     if success:
         print(f"\n✅ BACKTRACKING Success! Time: {elapsed:.4f} ms")
-        pallet.visualize_to_file("layout_backtracking.txt")
+        filename = layout_filename if layout_filename else "layout_backtracking.txt"
+        pallet.visualize_to_file(filename)
         return True
     else:
         print(f"\n❌ Failed to find a solution after {elapsed:.4f} ms")
         return False
 
 if __name__ == "__main__":
-    PALLET_LENGTH, PALLET_WIDTH = 1200, 800
+    pallet_l, pallet_w = 1200, 800
     
     skus = {
         'A': [206, 198, 278, 6],
@@ -158,4 +159,4 @@ if __name__ == "__main__":
             boxes.append((f"{name}_{count_id}", L, W, H))
             count_id += 1
     
-    compute_possibility(skus, boxes)
+    compute_possibility(skus, boxes, pallet_l, pallet_w)

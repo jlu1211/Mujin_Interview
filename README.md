@@ -1,91 +1,100 @@
+
 # Mujin Pallet Feasibility Checker
 
 ## 📌 Problem Statement
+
 Given a pallet of fixed size and a set of boxes with fixed dimensions (L × W × H) and fixed quantities, determine whether all boxes can fit on a **single layer** of a pallet in a **stable** arrangement.
 
 Stability in this simplified model is defined as:
-1. Selecting **four boxes of the same height** to serve as the four pallet corners.
-2. Ensuring that the **remaining boxes** can fit inside the **remaining usable pallet area** after the corners are placed.
-3. Boxes are not rotatable — each dimension is fixed.
 
-This is not a full geometric packing model; the goal is to build a clean, explainable algorithmic approach using heuristics and dynamic programming.
+1. Selecting **four boxes of the same height** to serve as the four pallet corners.
+2. Ensuring that the **remaining boxes** can fit inside the **remaining usable pallet area** without overlapping.
+3. Boxes are not rotatable — each dimension is fixed.
 
 ---
 
 ## ✅ What Has Been Implemented
+
 ### 1. **Corner Placement Heuristic**
+
 - Automatically finds **four boxes with identical height**.
-- These are treated as the four pallet corners to form a stable outer frame.
+- Places them at the four extremes of the pallet (Top-Left, Top-Right, Bottom-Left, Bottom-Right) to form a stable outer frame.
 
-### 2. **Area-Based Capacity Check**
-- Calculates the footprint area of the four corner boxes.
-- Subtracts their area from the pallet area to get the **remaining capacity**.
+### 2. **2D Grid Engine (Geometry-Aware)**
 
-### 3. **Dynamic Programming (1D DP) Feasibility Check**
-- Models the remaining boxes as fixed items with fixed areas.
-- Uses a **subset-sum / knapsack-style DP** to check if the exact total footprint of the remaining boxes fits inside the remaining pallet capacity.
-- Ensures all remaining boxes are used.
+- **Discretized Grid**: Models the pallet as a binary Matrix (`numpy` array) where `0` is empty and `1` is occupied.
+- **Collision Detection**: Strictly enforces geometric boundaries. Boxes cannot overlap or extend beyond the pallet edges.
+- **Visualization**: Generates ASCII text files to visualize the exact physical layout of the boxes. When running the test suite, layouts are saved in the `layout_result/` folder with names like `test_1_greedy.txt`, `test_1_dp.txt`, etc.
 
-### 4. **Adjustable Pallet Dimensions**
-- Pallet length and width can be changed directly in the code.
-- The DP logic automatically adapts.
+### 3. **Dual Solver Strategies**
 
-### 5. **Pure Python**
-- No OR-Tools, no PuLP, no external solvers.
-- Simple, clear logic, easy to read and explain.
+The project now includes two distinct algorithms to solve the packing problem:
+
+#### A. Greedy Solver (`greedy.py`)
+
+- **Algorithm**: First-Fit Decreasing.
+- **Logic**: Sorts all remaining boxes by area (Largest to Smallest) and places them in the first available spot on the grid.
+- **Pros**: Extremely fast (<10ms).
+- **Cons**: Can fail to find a solution even if one exists (due to fragmentation).
+
+#### B. Recursive Backtracking Solver (`dp_backtrack.py`)
+
+- **Algorithm**: Depth-First Search (DFS) with Backtracking.
+- **Logic**: Tries to place a box; if successful, recurses to the next box. If it reaches a dead end, it **backtracks** (removes the box) and tries the next coordinate.
+- **Pros**: Exact. If a solution exists, it will find it.
+- **Cons**: Slower than greedy (exponential time complexity in worst case). Includes verbose logging to trace the decision tree.
 
 ---
 
-## 🚧 What Will Be Done in the Future
-The next major step is a **3D DP model** for more realistic packing.
+## 🚀 How to Run
 
-Planned features include:
+### 1. Run Individual Solvers
 
-### 🔜 1. **2D Geometry-Aware Placement (in progress)**
-- Discretized pallet into grid cells.
-- Check actual box placement, not only total area.
-- Prevent overlap and out-of-bound placement.
+#### Greedy Solver
+Fast check for feasibility. Saves layout to `layout_greedy.txt`.
 
-### 🔜 2. **Full 3D DP Prototype**
-- State representation like:
+```bash
+python greedy.py
+```
 
+#### Backtracking Solver
+Exact solution finder. Saves layout to `layout_backtracking.txt`.
 
-## 📝 TODO
+```bash
+python dp_backtrack.py
+```
 
-- [ ] Implement 2D grid-based pallet discretization  
-  - Convert pallet surface into coarse (x, y) grid  
-  - Map each box footprint onto grid cells  
-  - Prevent box overlap and out-of-bound placement  
+### 2. Run Test Suite
 
-- [ ] Add more accurate geometric feasibility checks  
-  - Consider real L × W packing, not just total area  
-  - Respect exact box placement instead of area-only DP  
+Run all test cases from `test_cases.json` and compare both algorithms:
 
-- [ ] Prototype full 3D DP solver  
-  - Represent pallet volume in discrete (x, y, z) space  
-  - Allow vertical stacking and layer transitions  
-  - Track box occupancy and stability in all 3 dimensions  
+```bash
+python test_runner.py
+```
 
-- [ ] Support optional box rotation  
-  - Allow L/W swap  
-  - Later: allow full 6-orientation support in 3D  
+This will:
+- Execute both greedy and backtracking algorithms on all test cases
+- Display a comparison table with timing and pass/fail status
+- Save all layout visualizations to the `layout_result/` folder:
+  - `test_1_greedy.txt`, `test_1_dp.txt`
+  - `test_2_greedy.txt`, `test_2_dp.txt`
+  - ... and so on for each test case
 
-- [ ] Add stability metrics  
-  - Center of mass calculations  
-  - Bottom support ratio for each box  
-  - Prevent unstable overhangs  
-
-- [ ] Visualization  
-  - Generate simple ASCII or grid-based visual output  
-  - (Future) Consider matplotlib or a lightweight viewer  
-
-- [ ] Add CLI interface  
-  - Specify pallet size and SKUs from command line  
-  - Output feasibility summary  
-
-- [ ] Add tests  
-  - Unit tests for DP  
-  - Tests for corner selection  
-  - Edge cases (no matching heights, pallet too small, etc.)
+The test runner creates the `layout_result/` directory automatically if it doesn't exist.
 
 
+## 📝 TODO Status
+
+* [X] **Implement 2D grid-based pallet discretization** - [x] Convert pallet surface into (x, y) grid
+  * [X] Map each box footprint onto grid cells
+  * [X] Prevent box overlap and out-of-bound placement
+* [X] **Add more accurate geometric feasibility checks** - [x] Consider real L × W packing, not just total area
+  * [X] Respect exact box placement
+* [X] **Visualization** - [x] Generate simple ASCII or grid-based visual output to text files
+* [ ] **Prototype full 3D DP solver** - Represent pallet volume in discrete (x, y, z) space
+  * Allow vertical stacking and layer transitions
+* [ ] **Support optional box rotation** - Allow L/W swap during `find_fit` checks
+* [ ] **Add stability metrics** - Center of mass calculations
+  * Bottom support ratio for each box
+* [ ] **Add CLI interface** - Allow user to specify pallet size and SKUs via command line arguments
+* [ ] **Add Unit Tests** - Create `test_mujin.py` to verify edge cases (empty lists, oversized boxes, etc.) automatically.
