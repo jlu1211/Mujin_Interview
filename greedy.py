@@ -21,8 +21,10 @@ class PalletGrid:
 
     def find_fit(self, l, w):
         # Greedy search: Scan for the first valid empty spot
-        for r in range(self.length - l + 1):
-            for c in range(self.width - w + 1):
+        # Use step size to speed up search (same as backtracking for fair comparison)
+        step = 50  # Match backtracking's step size for performance
+        for r in range(0, self.length - l + 1, step):
+            for c in range(0, self.width - w + 1, step):
                 if self.grid[r, c] == 0: 
                     if self.is_region_empty(r, c, l, w):
                         return r, c
